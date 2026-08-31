@@ -15,6 +15,12 @@ the single-page app opens in the phone browser over your Wi-Fi.
 
 Requires **Node ≥ 22.5** (uses the built-in `node:sqlite` module).
 
+**One-click (macOS):** double-click `run.command` in the project folder — it starts
+the API + web app together, prints the address for your phone, opens the
+browser, and a single **Ctrl+C** stops everything.
+
+Or run it manually:
+
 ```bash
 # first time only — install root + server + client dependencies
 npm run setup
