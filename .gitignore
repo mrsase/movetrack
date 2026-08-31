@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# local database
+server/data/
+*.db
+*.db-shm
+*.db-wal
+
+# logs & env
+*.log
+.env
+.env.*
+
+# os junk
+.DS_Store

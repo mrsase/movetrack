@@ -1,0 +1,27 @@
+{
+  "name": "office-move",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-first inventory tracker for an office relocation",
+  "scripts": {
+    "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "npm --prefix server run build",
+    "build:client": "npm --prefix client run build",
+    "start": "npm --prefix server run start",
+    "typecheck": "npm run typecheck:server && npm run typecheck:client",
+    "typecheck:server": "npm --prefix server run typecheck",
+    "typecheck:client": "npm --prefix client run typecheck",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "npm --prefix server run lint",
+    "lint:client": "npm --prefix client run lint",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "npm --prefix server run test",
+    "test:client": "npm --prefix client run test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
