@@ -15,9 +15,10 @@ the single-page app opens in the phone browser over your Wi-Fi.
 
 Requires **Node ≥ 22.5** (uses the built-in `node:sqlite` module).
 
-**One-click (macOS):** double-click `run.command` in the project folder — it starts
-the API + web app together, prints the address for your phone, opens the
-browser, and a single **Ctrl+C** stops everything.
+**One-click (macOS):** double-click `run.command` in the project folder — it
+builds once, then serves the **production app** (API + frontend on one port),
+prints the address for your phone, opens the browser, and a single **Ctrl+C**
+stops everything.
 
 Or run it manually:
 
@@ -44,7 +45,8 @@ npm run build       # tsc server + vite client
 
 ## Using it from your phone
 
-1. Start the server (`npm start` or `npm run dev`) on your Mac.
+1. Start the server — double-click `run.command`, or run `npm start` after a
+   `npm run build`.
 2. Find your Mac's LAN address: `ipconfig getifaddr en0` (e.g. `192.168.1.42`).
 3. On your phone, connected to the **same Wi-Fi**, open `http://192.168.1.42:4000`.
 4. The startup banner prints every detected address for you.
