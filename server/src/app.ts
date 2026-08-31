@@ -29,9 +29,15 @@ export function createApp(db: DatabaseSync): express.Express {
     res.status(404).json({ error: 'Not found' });
   });
 
-  // Serve the built client (client/dist) when present.
-  const clientDist = join(here, '..', 'client', 'dist');
-  if (existsSync(clientDist)) {
+  // Serve the built client (client/dist) when present. The compiled server
+  // lives one level deeper than src/, so try both layouts plus a cwd-based one.
+  const candidates = [
+    join(here, '..', '..', 'client', 'dist'),
+    join(here, '..', 'client', 'dist'),
+    join(process.cwd(), 'client', 'dist'),
+  ];
+  const clientDist = candidates.find((p) => existsSync(p));
+  if (clientDist) {
     app.use(express.static(clientDist, { index: 'index.html', maxAge: '1h' }));
     app.use((req, res, next) => {
       if (req.method !== 'GET' || req.path.startsWith('/api')) return next();
