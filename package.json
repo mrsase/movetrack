@@ -4,6 +4,7 @@
   "private": true,
   "description": "Mobile-first inventory tracker for an office relocation",
   "scripts": {
+    "setup": "npm install && npm --prefix server install && npm --prefix client install",
     "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",
