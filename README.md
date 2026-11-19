@@ -9,15 +9,15 @@ arrival and unpacking — one tap per step, no accounts, no cloud, no monthly fe
 [![Node](https://img.shields.io/badge/node-%E2%89%A522.13-0c0f14.svg)](https://nodejs.org)
 
 <p align="center">
-  <img src="docs/screenshots/home-phone.png" width="23%" alt="The floor board: every box as a numbered tile with its status">
-  <img src="docs/screenshots/items-phone.png" width="23%" alt="Every item, searchable and filterable by status">
-  <img src="docs/screenshots/boxes-phone.png" width="23%" alt="Boxes in move order, with destinations and states">
-  <img src="docs/screenshots/labels-phone.png" width="23%" alt="Printable 90 × 60 mm box labels">
+  <img src="docs/screenshots/home-phone.png" width="32%" alt="The floor board: every box as a numbered tile with its status">
+  <img src="docs/screenshots/items-phone.png" width="32%" alt="Every item, searchable and filterable by status">
+  <img src="docs/screenshots/boxes-phone.png" width="32%" alt="Boxes in move order, with destinations and states">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/labels-print.png" width="62%" alt="Print layout: eight 90 × 60 mm labels on two columns">
-  <img src="docs/screenshots/home-dark.png" width="23%" alt="The same floor board in the dark theme">
+  <img src="docs/screenshots/labels-phone.png" width="32%" alt="The label sheet: eight 90 × 60 mm tickets, two-up">
+  <img src="docs/screenshots/sheet-phone.png" width="32%" alt="Packing an item: pick an open box or create one">
+  <img src="docs/screenshots/home-dark.png" width="32%" alt="The same floor board in the dark theme">
 </p>
 
 ## Why this exists
@@ -52,6 +52,10 @@ There is no hero metric, no stat-card grid and no gradient progress bar.
 The system is recorded in [`docs/DESIGN.md`](docs/DESIGN.md) and the product brief in
 [`PRODUCT.md`](PRODUCT.md). It is checked mechanically: `npx impeccable detect` reports
 **0 findings** on both the rendered app and `client/src`.
+
+<p align="center">
+  <img src="docs/screenshots/home-desktop.png" width="100%" alt="The same surface at 1280 px: header and navigation share one 720 px rail">
+</p>
 
 ## Quick start
 
@@ -108,6 +112,10 @@ Carried something by hand? **Mark delivered** on the item directly. Made a mista
 **Boxes → Labels** renders one 90 × 60 mm label per active box with its destination, item
 count and box number. Print, tape, done. Unpacked boxes are excluded from the batch; open a
 single box and use the printer icon in its header to reprint just that label.
+
+<p align="center">
+  <img src="docs/screenshots/labels-print.png" width="70%" alt="Print output: eight 90 × 60 mm labels, black on white, two columns">
+</p>
 
 ## Export and backup
 

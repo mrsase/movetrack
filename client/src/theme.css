@@ -406,6 +406,8 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
+  margin: 0 auto;
+  max-width: 720px;
   z-index: 40;
   background: var(--ink);
   color: var(--paper);
@@ -1400,14 +1402,14 @@ a {
 
 .labels {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .label {
   display: flex;
   flex-direction: column;
-  min-height: 150px;
+  min-height: 128px;
   background: var(--surface);
   border: 1px solid var(--ink);
   border-radius: 3px;
@@ -1417,13 +1419,13 @@ a {
 .label__brand {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 11px;
+  gap: 5px;
+  padding: 4px 8px;
   background: var(--hazard);
   color: var(--hazard-ink);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border-bottom: 1px solid var(--ink);
 }
@@ -1433,24 +1435,27 @@ a {
 }
 
 .label__title {
-  padding: 12px 11px 0;
-  font-size: 24px;
+  padding: 9px 8px 0;
+  font-size: 16px;
   font-weight: 780;
-  font-stretch: 90%;
+  font-stretch: 92%;
   line-height: 1.05;
   letter-spacing: -0.02em;
   overflow-wrap: anywhere;
 }
 
 .label__dest {
-  padding: 4px 11px 0;
-  font-size: 13px;
+  padding: 3px 8px 0;
+  font-size: 11px;
   color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .label__meta {
   margin-top: auto;
-  padding: 10px 11px;
+  padding: 7px 8px;
   border-top: 1px dashed var(--line-strong);
   font-size: 11px;
   color: var(--muted);
