@@ -1,4 +1,5 @@
 import type { ReactNode, SVGProps } from 'react';
+import { categoryIcon } from './lib/categories';
 
 export type IconName =
   | 'home'
@@ -25,6 +26,9 @@ export type IconName =
   | 'keyboard'
   | 'drive'
   | 'table'
+  | 'printer'
+  | 'server'
+  | 'wifi'
   | 'box-open'
   | 'spark'
   | 'alert';
@@ -161,6 +165,29 @@ const P: Record<IconName, ReactNode> = {
       <path d="M9.5 16v4.5M14.5 16v4.5" />
     </>
   ),
+  printer: (
+    <>
+      <path d="M6 9V3h12v6" />
+      <rect x="3" y="9" width="18" height="8" rx="2" />
+      <path d="M6 17h12v4H6z" />
+      <path d="M17 12h.01" />
+    </>
+  ),
+  server: (
+    <>
+      <rect x="3" y="3" width="18" height="7" rx="2" />
+      <rect x="3" y="14" width="18" height="7" rx="2" />
+      <path d="M7 6.5h.01M7 17.5h.01" />
+    </>
+  ),
+  wifi: (
+    <>
+      <path d="M2 8.5a15 15 0 0 1 20 0" />
+      <path d="M5.5 12.5a10 10 0 0 1 13 0" />
+      <path d="M9 16.5a5 5 0 0 1 6 0" />
+      <path d="M12 20h.01" />
+    </>
+  ),
   'box-open': (
     <>
       <path d="M21 9v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9" />
@@ -202,17 +229,5 @@ export function Icon({ name, size = 20, strokeWidth = 1.8, ...rest }: IconProps)
 }
 
 export function CategoryIcon({ category, size = 20 }: { category: string; size?: number }) {
-  const map: Record<string, IconName> = {
-    mac: 'laptop',
-    computer: 'cpu',
-    monitor: 'monitor',
-    input: 'keyboard',
-    storage: 'drive',
-    peripheral: 'layers',
-    cable: 'link',
-    accessory: 'tag',
-    furniture: 'table',
-    other: 'package',
-  };
-  return <Icon name={map[category] ?? 'package'} size={size} />;
+  return <Icon name={categoryIcon(category)} size={size} />;
 }

@@ -2,9 +2,9 @@
   "name": "office-move",
   "version": "1.0.0",
   "private": true,
-  "description": "Mobile-first inventory tracker for an office relocation",
+  "description": "MoveTrack \u2014 local-first, phone-first inventory for an office move",
   "scripts": {
-    "setup": "npm install && npm --prefix server install && npm --prefix client install",
+    "setup": "npm install && (cd server && npm install) && (cd client && npm install)",
     "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",
@@ -20,9 +20,18 @@
     "lint:client": "npm --prefix client run lint",
     "test": "npm run test:server && npm run test:client",
     "test:server": "npm --prefix server run test",
-    "test:client": "npm --prefix client run test"
+    "test:client": "npm --prefix client run test",
+    "demo": "npm run build && node server/scripts/seed-demo.mjs && DB_PATH=\"$PWD/server/data/demo.db\" npm start",
+    "seed:demo": "node server/scripts/seed-demo.mjs",
+    "seed:demo:force": "node server/scripts/seed-demo.mjs --force",
+    "smoke": "node scripts/smoke.mjs",
+    "verify": "npm run typecheck && npm run lint && npm test && npm run build",
+    "ci": "npm ci && (cd server && npm ci) && (cd client && npm ci)"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=22.13.0"
   }
 }

@@ -12,7 +12,7 @@ import { Icon, CategoryIcon } from '../icons';
 import { categoryColor, categoryLabel } from '../lib/categories';
 import { ITEM_STATUS_META, BOX_STATUS_META } from '../lib/meta';
 import { dateLabel, pluralize } from '../lib/format';
-import { useBusRefresh, errorMessage } from '../hooks';
+import { useBusRefresh, useRefreshKey, errorMessage } from '../hooks';
 import type { Nav } from '../nav';
 
 export function ItemDetail({ nav }: { nav: Nav }) {
@@ -25,6 +25,7 @@ export function ItemDetail({ nav }: { nav: Nav }) {
   const [packing, setPacking] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [attempt, retry] = useRefreshKey();
 
   useEffect(() => {
     let alive = true;
@@ -40,7 +41,7 @@ export function ItemDetail({ nav }: { nav: Nav }) {
     return () => {
       alive = false;
     };
-  }, [id, tick]);
+  }, [id, tick, attempt]);
 
   const headerRight = useMemo(() => {
     if (!item) return null;
@@ -61,7 +62,7 @@ export function ItemDetail({ nav }: { nav: Nav }) {
     return (
       <div className="screen">
         <Header title="Item" onBack={() => nav.pop()} />
-        <ErrorBox message={error} onRetry={() => setItem(null)} />
+        <ErrorBox message={error} onRetry={retry} />
       </div>
     );
   }

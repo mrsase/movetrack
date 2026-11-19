@@ -9,7 +9,8 @@ export type Route =
   | { name: 'item-edit'; id: number; item: Item }
   | { name: 'boxes' }
   | { name: 'box-new' }
-  | { name: 'box'; id: number };
+  | { name: 'box'; id: number }
+  | { name: 'labels'; id?: number };
 
 export interface Nav {
   route: Route;

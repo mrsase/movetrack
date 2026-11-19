@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api } from '../api';
 import type { Item, Stats } from '../types';
 import { BrandHeader } from '../components/Header';
@@ -8,7 +8,9 @@ import { EmptyState } from '../components/EmptyState';
 import { Icon, type IconName } from '../icons';
 import { categoryColor, categoryLabel } from '../lib/categories';
 import { timeAgo } from '../lib/format';
-import { useBusRefresh } from '../hooks';
+import { useBusRefresh, useRefreshKey, errorMessage } from '../hooks';
+import { useToast } from '../components/Toast';
+import { bus } from '../lib/events';
 import type { Nav } from '../nav';
 import { ITEM_STATUS_META } from '../lib/meta';
 import type { ItemStatus } from '../types';
@@ -22,8 +24,11 @@ const FLOW: { key: ItemStatus; icon: IconName }[] = [
 
 export function Home({ nav }: { nav: Nav }) {
   const tick = useBusRefresh();
+  const toast = useToast();
+  const fileRef = useRef<HTMLInputElement>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [attempt, retry] = useRefreshKey();
 
   useEffect(() => {
     let alive = true;
@@ -38,13 +43,13 @@ export function Home({ nav }: { nav: Nav }) {
     return () => {
       alive = false;
     };
-  }, [tick]);
+  }, [tick, attempt]);
 
   if (error && !stats) {
     return (
       <div className="screen">
         <BrandHeader />
-        <ErrorBox message={error} onRetry={() => setStats(null)} />
+        <ErrorBox message={error} onRetry={retry} />
       </div>
     );
   }
@@ -55,6 +60,30 @@ export function Home({ nav }: { nav: Nav }) {
         <ListSkeleton rows={3} />
       </div>
     );
+  }
+
+  function download(path: string) {
+    const a = document.createElement('a');
+    a.href = path;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  async function restore(file: File | undefined) {
+    if (!file) return;
+    try {
+      const parsed: unknown = JSON.parse(await file.text());
+      if (!window.confirm('Replace every box and item with this backup? This cannot be undone.')) return;
+      const res = await api.restoreBackup(parsed);
+      toast(`Restored ${res.imported.items} items and ${res.imported.boxes} boxes`);
+      bus.emit();
+    } catch (e) {
+      toast(errorMessage(e), 'err');
+    } finally {
+      if (fileRef.current) fileRef.current.value = '';
+    }
   }
 
   const i = stats.items;
@@ -155,6 +184,37 @@ export function Home({ nav }: { nav: Nav }) {
           </div>
         </div>
       )}
+
+      {/* data: export and restore */}
+      <div className="card">
+        <div className="muted" style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 10 }}>
+          Export &amp; backup
+        </div>
+        <div className="flex" style={{ gap: 8, flexWrap: 'wrap' }}>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => download('/api/export/items.csv')}>
+            Items CSV
+          </button>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => download('/api/export/boxes.csv')}>
+            Boxes CSV
+          </button>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => download('/api/export/backup.json')}>
+            Backup JSON
+          </button>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => fileRef.current?.click()}>
+            Restore…
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            onChange={(e) => void restore(e.target.files?.[0])}
+          />
+        </div>
+        <div className="field__hint" style={{ marginTop: 8 }}>
+          Restore replaces all boxes and items. Take a backup first.
+        </div>
+      </div>
 
       {/* top categories */}
       {i.byCategory.length > 0 && (

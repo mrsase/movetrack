@@ -70,4 +70,11 @@ export const api = {
   deleteBox: (id: number) => request<void>(`/api/boxes/${id}`, { method: 'DELETE' }),
   boxAction: (id: number, action: string) =>
     request<Box>(`/api/boxes/${id}/action`, { method: 'POST', body: JSON.stringify({ action }) }),
+
+  /** Replace every box and item with the contents of a backup file. */
+  restoreBackup: (backup: unknown) =>
+    request<{ imported: { boxes: number; items: number } }>('/api/import/backup', {
+      method: 'POST',
+      body: JSON.stringify({ ...(backup as Record<string, unknown>), confirmation: 'replace-all' }),
+    }),
 };

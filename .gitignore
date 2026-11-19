@@ -17,3 +17,8 @@ server/data/
 
 # os junk
 .DS_Store
+# stray root database from a mis-set DB_PATH
+/data/
+
+# real asset data, never publish
+office-move-items.xlsx

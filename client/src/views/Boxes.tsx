@@ -6,13 +6,14 @@ import { BoxRow } from '../components/BoxRow';
 import { EmptyState } from '../components/EmptyState';
 import { ListSkeleton, ErrorBox } from '../components/Feedback';
 import { Icon } from '../icons';
-import { useBusRefresh, errorMessage } from '../hooks';
+import { useBusRefresh, useRefreshKey, errorMessage } from '../hooks';
 import type { Nav } from '../nav';
 
 export function Boxes({ nav }: { nav: Nav }) {
   const tick = useBusRefresh();
   const [boxes, setBoxes] = useState<Box[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [attempt, retry] = useRefreshKey();
 
   useEffect(() => {
     let alive = true;
@@ -26,7 +27,7 @@ export function Boxes({ nav }: { nav: Nav }) {
     return () => {
       alive = false;
     };
-  }, [tick]);
+  }, [tick, attempt]);
 
   const active = boxes?.filter((b) => b.status !== 'unpacked') ?? [];
   const unpacked = boxes?.filter((b) => b.status === 'unpacked') ?? [];
@@ -37,14 +38,20 @@ export function Boxes({ nav }: { nav: Nav }) {
         title="Boxes"
         brand
         right={
-          <button type="button" className="btn btn--ghost btn--sm" onClick={() => nav.push({ name: 'box-new' })}>
-            <Icon name="plus" size={15} strokeWidth={2.4} />
-            New box
-          </button>
+          <div className="flex" style={{ gap: 6 }}>
+            <button type="button" className="btn btn--ghost btn--sm" onClick={() => nav.push({ name: 'labels' })}>
+              <Icon name="printer" size={15} />
+              Labels
+            </button>
+            <button type="button" className="btn btn--ghost btn--sm" onClick={() => nav.push({ name: 'box-new' })}>
+              <Icon name="plus" size={15} strokeWidth={2.4} />
+              New box
+            </button>
+          </div>
         }
       />
 
-      {error && <ErrorBox message={error} onRetry={() => setBoxes(null)} />}
+      {error && <ErrorBox message={error} onRetry={retry} />}
       {!boxes && !error && <ListSkeleton rows={4} />}
 
       {boxes && boxes.length === 0 && (

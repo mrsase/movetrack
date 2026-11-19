@@ -14,7 +14,7 @@ import { Icon, type IconName } from '../icons';
 import { BOX_STATUS_META } from '../lib/meta';
 import { pluralize } from '../lib/format';
 import { filterByQuery } from '../lib/filter';
-import { useBusRefresh, errorMessage } from '../hooks';
+import { useBusRefresh, useRefreshKey, errorMessage } from '../hooks';
 import { useToast } from '../components/Toast';
 import type { Nav } from '../nav';
 
@@ -35,6 +35,7 @@ export function BoxView({ nav }: { nav: Nav }) {
   const [editing, setEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [attempt, retry] = useRefreshKey();
 
   const tick = useBusRefresh();
   const toast = useToast();
@@ -51,7 +52,7 @@ export function BoxView({ nav }: { nav: Nav }) {
     return () => {
       alive = false;
     };
-  }, [id, tick]);
+  }, [id, tick, attempt]);
 
   const meta = box ? BOX_STATUS_META[box.status] : null;
 
@@ -59,20 +60,28 @@ export function BoxView({ nav }: { nav: Nav }) {
     () =>
       box ? (
         <div className="flex" style={{ gap: 8 }}>
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={() => nav.push({ name: 'labels', id: box.id })}
+            aria-label="Print label"
+          >
+            <Icon name="printer" size={15} />
+          </button>
           <button type="button" className="icon-btn" onClick={() => setEditing(true)} aria-label="Edit box">
             <Icon name="pencil" size={15} />
           </button>
           <DeleteButton onDelete={() => setConfirmDelete(true)} />
         </div>
       ) : null,
-    [box],
+    [box, nav],
   );
 
   if (error && !box) {
     return (
       <div className="screen">
         <Header title="Box" onBack={() => nav.pop()} />
-        <ErrorBox message={error} onRetry={() => setBox(null)} />
+        <ErrorBox message={error} onRetry={retry} />
       </div>
     );
   }

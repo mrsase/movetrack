@@ -26,7 +26,7 @@ interface Fields {
 function initial(item?: Item): Fields {
   return {
     name: item?.name ?? '',
-    category: item?.category ?? 'mac',
+    category: item?.category ?? 'other',
     serial: item?.serial ?? '',
     quantity: item?.quantity ?? 1,
     destination: item?.destination ?? '',

@@ -8,6 +8,7 @@ import { ItemDetail } from './views/ItemDetail';
 import { Boxes } from './views/Boxes';
 import { BoxForm } from './views/BoxForm';
 import { BoxView } from './views/BoxDetail';
+import { Labels } from './views/Labels';
 import { BottomNav } from './components/BottomNav';
 import { Fab } from './components/Fab';
 
@@ -65,5 +66,7 @@ function renderRoute(route: Route, nav: Nav) {
       return <BoxForm nav={nav} />;
     case 'box':
       return <BoxView nav={nav} />;
+    case 'labels':
+      return <Labels nav={nav} onlyBoxId={route.id} />;
   }
 }

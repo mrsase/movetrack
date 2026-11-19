@@ -11,4 +11,15 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
+  {
+    // Standalone Node scripts (seed, tools) are plain ESM with Node globals.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        URL: 'readonly',
+      },
+    },
+  },
 );

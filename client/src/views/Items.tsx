@@ -7,7 +7,7 @@ import { Chip } from '../components/Chip';
 import { SearchBar } from '../components/SearchBar';
 import { EmptyState } from '../components/EmptyState';
 import { ListSkeleton, ErrorBox } from '../components/Feedback';
-import { useBusRefresh, errorMessage } from '../hooks';
+import { useBusRefresh, useRefreshKey, errorMessage } from '../hooks';
 import { ITEM_STATUS_LABELS, ITEM_STATUSES } from '../lib/meta';
 import type { Nav } from '../nav';
 
@@ -18,6 +18,7 @@ export function Items({ nav }: { nav: Nav }) {
   const [debouncedQ, setDebouncedQ] = useState('');
   const [data, setData] = useState<{ data: Item[]; total: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [attempt, retry] = useRefreshKey();
 
   useEffect(() => {
     const t = window.setTimeout(() => setDebouncedQ(q), 250);
@@ -38,7 +39,7 @@ export function Items({ nav }: { nav: Nav }) {
     return () => {
       alive = false;
     };
-  }, [tick, debouncedQ, status]);
+  }, [tick, debouncedQ, status, attempt]);
 
   const visibleCount = data ? data.data.length : 0;
 
@@ -59,7 +60,7 @@ export function Items({ nav }: { nav: Nav }) {
         ))}
       </div>
 
-      {error && <ErrorBox message={error} onRetry={() => setData(null)} />}
+      {error && <ErrorBox message={error} onRetry={retry} />}
 
       {!data && !error && <ListSkeleton rows={5} />}
 
