@@ -22,3 +22,12 @@ server/data/
 
 # real asset data, never publish
 office-move-items.xlsx
+
+# Impeccable working state (shared artifacts stay tracked)
+**/.impeccable/config.local.json
+**/.impeccable/hook.cache.json
+**/.impeccable/hook.pending.json
+**/.impeccable/*.png
+**/.impeccable/review/
+**/.impeccable/questions/
+**/.impeccable/live/

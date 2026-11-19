@@ -137,7 +137,7 @@ export function ItemDetail({ nav }: { nav: Nav }) {
       {/* current box */}
       {showBoxAction && (
         <button type="button" className="row" onClick={() => nav.push({ name: 'box', id: box!.id })}>
-          <span className="row__icon" style={{ color: 'var(--accent)' }}>
+          <span className="row__icon" style={{ color: 'var(--ink-2)' }}>
             <Icon name="package" size={19} />
           </span>
           <span className="row__body">
@@ -234,7 +234,7 @@ function MetaRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', gap: 12, padding: '6px 0' }}>
       <span style={{ flex: '0 0 92px', fontSize: 13, color: 'var(--muted)', paddingTop: 1, fontWeight: 600 }}>{label}</span>
-      <span style={{ flex: 1, fontSize: 14.5, color: 'var(--text)' }}>{value}</span>
+      <span style={{ flex: 1, fontSize: 14.5, color: 'var(--ink)' }}>{value}</span>
     </div>
   );
 }
@@ -310,9 +310,7 @@ function PackIntoSheet({
 
       {openCount > 0 && (
         <>
-          <div className="muted" style={{ fontSize: 13, fontWeight: 650, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            Open boxes
-          </div>
+          <div className="group-label">Open boxes</div>
           <div className="segment">
             {boxes!.map((b) => (
               <button key={b.id} type="button" className={`segment__option${selected === b.id ? ' segment__option--selected' : ''}`} onClick={() => setSelected(b.id)}>
@@ -338,14 +336,12 @@ function PackIntoSheet({
           margin: openCount > 0 ? '18px 0 4px' : '4px 0',
           color: 'var(--muted)',
           fontSize: 12.5,
-          fontWeight: 650,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
+          fontWeight: 600,
         }}
       >
-        <span style={{ flex: 1, height: 1, background: 'var(--line-soft)' }} />
+        <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
         or create a new box
-        <span style={{ flex: 1, height: 1, background: 'var(--line-soft)' }} />
+        <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
       </div>
 
       <div className="flex" style={{ gap: 8, marginTop: 10 }}>

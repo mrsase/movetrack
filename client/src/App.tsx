@@ -10,7 +10,6 @@ import { BoxForm } from './views/BoxForm';
 import { BoxView } from './views/BoxDetail';
 import { Labels } from './views/Labels';
 import { BottomNav } from './components/BottomNav';
-import { Fab } from './components/Fab';
 
 const TAB_ROOT: Record<TabName, Route> = {
   overview: { name: 'home' },
@@ -32,17 +31,9 @@ export default function App() {
   const tab: TabName =
     route.name === 'home' ? 'overview' : route.name.startsWith('item') || route.name.startsWith('item-') ? 'items' : 'boxes';
 
-  const fab =
-    route.name === 'home' || route.name === 'items'
-      ? { label: 'Add item', onClick: () => push({ name: 'item-new' }) }
-      : route.name === 'boxes'
-        ? { label: 'New box', onClick: () => push({ name: 'box-new' }) }
-        : null;
-
   return (
     <div className="app">
       {renderRoute(route, nav)}
-      {fab && <Fab label={fab.label} onClick={fab.onClick} />}
       <BottomNav active={tab} onChange={goTab} />
     </div>
   );

@@ -9,10 +9,15 @@ arrival and unpacking — one tap per step, no accounts, no cloud, no monthly fe
 [![Node](https://img.shields.io/badge/node-%E2%89%A522.13-0c0f14.svg)](https://nodejs.org)
 
 <p align="center">
-  <img src="docs/screenshots/home-phone.png" width="23%" alt="Dashboard: progress, status counts, export and backup">
+  <img src="docs/screenshots/home-phone.png" width="23%" alt="The floor board: every box as a numbered tile with its status">
   <img src="docs/screenshots/items-phone.png" width="23%" alt="Every item, searchable and filterable by status">
-  <img src="docs/screenshots/boxes-phone.png" width="23%" alt="Boxes grouped by where they are in the move">
+  <img src="docs/screenshots/boxes-phone.png" width="23%" alt="Boxes in move order, with destinations and states">
   <img src="docs/screenshots/labels-phone.png" width="23%" alt="Printable 90 × 60 mm box labels">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/labels-print.png" width="62%" alt="Print layout: eight 90 × 60 mm labels on two columns">
+  <img src="docs/screenshots/home-dark.png" width="23%" alt="The same floor board in the dark theme">
 </p>
 
 ## Why this exists
@@ -30,6 +35,23 @@ database is a single SQLite file you can copy.
 - **Honest state machine** — a box cannot be shipped twice, and unpacking is what delivers its
   contents. The server enforces it; the UI never has to guess.
 - **Leaves with your data** — CSV for spreadsheets, JSON backup that restores in one request.
+
+## Design
+
+The interface is built as a **warehouse floor board**, not a dashboard: the move is a set
+of physical cartons, so every box is a numbered tile with a destination, contents count and
+a stamped state. Unsealed boxes are drawn dashed; delivered ones are tinted and stamped.
+There is no hero metric, no stat-card grid and no gradient progress bar.
+
+- Concrete ground and ink, with one hazard-yellow field for the brand bar and label bands.
+- **Archivo variable** self-hosted (OFL): wide weights for the wordmark and box numbers,
+  normal widths for UI. No webfont request at runtime.
+- Status is the only colour in a list; drifting into decoration is a bug.
+- Print labels are 90 × 60 mm, two-up, black on white, with a dashed meta rule.
+
+The system is recorded in [`docs/DESIGN.md`](docs/DESIGN.md) and the product brief in
+[`PRODUCT.md`](PRODUCT.md). It is checked mechanically: `npx impeccable detect` reports
+**0 findings** on both the rendered app and `client/src`.
 
 ## Quick start
 
@@ -158,7 +180,7 @@ office-move/
 - API responses are `Cache-Control: no-store`. This is live data; a cached dashboard lied once
   during validation and will not again.
 
-## The process behind v1.0
+## The process
 
 This release was finished with a seven-phase loop, documented in
 [`docs/CYCLE.md`](docs/CYCLE.md): design → code → test → verify → validate → evaluate → ship.
@@ -166,21 +188,28 @@ Each phase has an artifact and a gate:
 
 | Phase | Artifact | Gate |
 | --- | --- | --- |
-| Design | [docs/design.md](docs/design.md) | acceptance criteria with owners |
+| Design | [docs/v1-design.md](docs/v1-design.md) | acceptance criteria with owners |
 | Test | [docs/test-plan.md](docs/test-plan.md) | `npm test` (72 tests) |
 | Verify | [docs/verification.md](docs/verification.md) | `npm run verify` |
 | Validate | [docs/validation.md](docs/validation.md) | `npm run smoke` + driven browser |
 | Evaluate | [docs/evaluation.md](docs/evaluation.md) | measured go/no-go |
 | Ship | this README + CI + tag | public repo, green CI |
 
-Validation found seven real defects — dead retry buttons, invisible progress bars, stale
-dashboard data, a mis-seeded demo database, missing categories, a wrong form default and an
-orphaned desktop tile. All are fixed here with tests or documented checks.
+Validation found seven real defects in v1.0 — dead retry buttons, invisible progress bars,
+stale dashboard data, a mis-seeded demo database, missing categories, a wrong form default
+and an orphaned desktop tile. All are fixed with tests or documented checks.
+
+**v1.1 — frontend redesign.** The v1.0 look (rounded cards, gradient progress, pill chips)
+was replaced rather than polished. The new world was designed against `PRODUCT.md`, recorded
+in `docs/DESIGN.md`, verified at 390/768/1280 in light and dark, checked in print emulation
+at exactly 90 × 60 mm, and passed the Impeccable detector with zero findings. The redesign
+also fixed a header that was narrower than the app, and removed the floating button that
+covered row controls.
 
 ## Roadmap
 
-- **v1.1** — QR labels so a box can be opened by scanning; photo attachments per item.
-- **v1.2** — optional shared token for the LAN, and an import mode that merges instead of replacing.
+- **v1.2** — QR labels so a box can be opened by scanning; photo attachments per item.
+- **v1.3** — optional shared token for the LAN, and an import mode that merges instead of replacing.
 - **Later** — multi-move workspaces, per-floor views, printable inventory manifest.
 
 Not planned: accounts, cloud sync, billing. The point is that it runs on your machine.

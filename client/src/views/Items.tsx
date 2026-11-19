@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api';
 import type { Item } from '../types';
 import { Header } from '../components/Header';
+import { Icon } from '../icons';
 import { ItemRow } from '../components/ItemRow';
 import { Chip } from '../components/Chip';
 import { SearchBar } from '../components/SearchBar';
@@ -45,7 +46,16 @@ export function Items({ nav }: { nav: Nav }) {
 
   return (
     <div className="screen">
-      <Header title="Items" brand />
+      <Header
+        title="Items"
+        brand
+        right={
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => nav.push({ name: 'item-new' })}>
+            <Icon name="plus" size={15} strokeWidth={2.4} />
+            Add item
+          </button>
+        }
+      />
 
       <SearchBar value={q} onChange={setQ} placeholder="Search name, serial, notes…" />
 

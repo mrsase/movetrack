@@ -29,8 +29,9 @@ export function Boxes({ nav }: { nav: Nav }) {
     };
   }, [tick, attempt]);
 
-  const active = boxes?.filter((b) => b.status !== 'unpacked') ?? [];
-  const unpacked = boxes?.filter((b) => b.status === 'unpacked') ?? [];
+  const ordered = boxes ? [...boxes].sort((a, b) => a.id - b.id) : [];
+  const active = ordered.filter((b) => b.status !== 'unpacked');
+  const unpacked = ordered.filter((b) => b.status === 'unpacked');
 
   return (
     <div className="screen">

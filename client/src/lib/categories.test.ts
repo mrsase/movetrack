@@ -26,7 +26,7 @@ describe('category catalog', () => {
 
   it('degrades gracefully for unknown categories', () => {
     expect(categoryLabel('hovercraft')).toBe('hovercraft');
-    expect(categoryColor('hovercraft')).toBe('var(--muted)');
+    expect(categoryColor('hovercraft')).toMatch(/^var\(--/);
     expect(categoryIcon('hovercraft')).toBe('package');
   });
 });

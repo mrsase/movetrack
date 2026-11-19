@@ -1,18 +1,18 @@
 import type { BoxStatus, ItemStatus } from '../types';
 
 export const ITEM_STATUS_META: Record<ItemStatus, { label: string; color: string }> = {
-  in_office: { label: 'In office', color: 'var(--info)' },
-  packed: { label: 'Packed', color: 'var(--accent)' },
-  shipped: { label: 'Shipped', color: 'var(--violet)' },
-  delivered: { label: 'Delivered', color: 'var(--good)' },
+  in_office: { label: 'In office', color: 'var(--neutral)' },
+  packed: { label: 'Packed', color: 'var(--warn)' },
+  shipped: { label: 'Shipped', color: 'var(--info)' },
+  delivered: { label: 'Delivered', color: 'var(--ok)' },
 };
 
 export const BOX_STATUS_META: Record<BoxStatus, { label: string; color: string; action: string | null }> = {
-  open: { label: 'Open', color: 'var(--info)', action: 'Seal' },
-  sealed: { label: 'Sealed', color: 'var(--accent)', action: 'Ship it' },
-  shipped: { label: 'Shipped', color: 'var(--violet)', action: 'Arrived' },
-  arrived: { label: 'Arrived', color: 'var(--sky)', action: 'Unpack all' },
-  unpacked: { label: 'Unpacked', color: 'var(--good)', action: null },
+  open: { label: 'Open', color: 'var(--neutral)', action: 'Seal' },
+  sealed: { label: 'Sealed', color: 'var(--warn)', action: 'Ship it' },
+  shipped: { label: 'Shipped', color: 'var(--info)', action: 'Arrived' },
+  arrived: { label: 'Arrived', color: 'var(--info)', action: 'Unpack all' },
+  unpacked: { label: 'Unpacked', color: 'var(--ok)', action: null },
 };
 
 export const ITEM_STATUSES: ItemStatus[] = ['in_office', 'packed', 'shipped', 'delivered'];

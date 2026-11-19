@@ -1,8 +1,8 @@
 {
   "name": "office-move",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "MoveTrack \u2014 local-first, phone-first inventory for an office move",
+  "description": "MoveTrack — local-first, phone-first inventory for an office move",
   "scripts": {
     "setup": "npm install && (cd server && npm install) && (cd client && npm install)",
     "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",

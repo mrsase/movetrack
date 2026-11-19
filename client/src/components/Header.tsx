@@ -29,14 +29,21 @@ export function Header({ title, onBack, right, brand }: HeaderProps) {
   );
 }
 
-export function BrandHeader() {
+interface BrandHeaderProps {
+  /** Live count on the right, e.g. “10 / 46 delivered”. */
+  right?: ReactNode;
+}
+
+/** The hazard bar: brand and the move's running total. */
+export function BrandHeader({ right }: BrandHeaderProps) {
   return (
-    <header className="hdr" style={{ paddingBottom: 6 }}>
-      <div className="hdr__title" style={{ fontWeight: 800, letterSpacing: '-0.02em' }}>
-        <span className="hdr__brand">
-          <Icon name="package" size={16} />
+    <header className="topbar">
+      <div className="topbar__inner">
+        <span className="topbar__brand">
+          <Icon name="package" size={17} strokeWidth={2.2} />
+          MoveTrack
         </span>
-        MoveTrack
+        {right && <span className="topbar__count">{right}</span>}
       </div>
     </header>
   );

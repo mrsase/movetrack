@@ -49,7 +49,7 @@ function toneDot(tone: Toast['tone']) {
         width: 8,
         height: 8,
         borderRadius: '50%',
-        background: tone === 'ok' ? 'var(--good)' : 'var(--danger)',
+        background: tone === 'ok' ? 'var(--ok)' : 'var(--danger)',
         display: 'inline-block',
         flex: '0 0 auto',
       }}

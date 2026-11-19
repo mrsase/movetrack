@@ -42,7 +42,10 @@ export function Labels({ nav, onlyBoxId }: LabelsProps) {
     };
   }, [tick, attempt]);
 
-  const visible = (boxes ?? []).filter((b) =>
+  const visible = (boxes ?? [])
+    .slice()
+    .sort((a, b) => a.id - b.id)
+    .filter((b) =>
     onlyBoxId !== undefined ? b.id === onlyBoxId : b.status !== 'unpacked',
   );
 
@@ -90,7 +93,8 @@ export function Labels({ nav, onlyBoxId }: LabelsProps) {
                 <div className="label__title">{box.label ?? `Box ${box.id}`}</div>
                 {box.destination && <div className="label__dest">→ {box.destination}</div>}
                 <div className="label__meta">
-                  box #{box.id} · {pluralize(box.items_total, 'item')} · {box.status}
+                  Box {box.id} · {pluralize(box.items_total, 'item')} ·{' '}
+                  {box.status.charAt(0).toUpperCase() + box.status.slice(1)}
                 </div>
               </article>
             ))}

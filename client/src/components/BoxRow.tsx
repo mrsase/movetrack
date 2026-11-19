@@ -13,27 +13,22 @@ export function BoxRow({ box, onClick }: BoxRowProps) {
   const pct = box.items_total === 0 ? 0 : Math.round((box.items_delivered / box.items_total) * 100);
   return (
     <button type="button" className="row" onClick={onClick}>
-      <span className="row__icon" style={{ color: 'var(--accent)' }}>
+      <span className="row__icon" style={{ color: 'var(--ink-2)' }}>
         <Icon name="package" size={19} />
       </span>
       <span className="row__body">
         <span className="row__title">{box.label ?? `Box ${box.id}`}</span>
         <span className="row__meta">
           <span>{box.items_total === 0 ? 'empty' : `${box.items_total} item${box.items_total === 1 ? '' : 's'}`}</span>
-          {box.items_total > 0 && (
+          {box.items_delivered > 0 && (
             <>
               <span className="dot" />
               <span>{box.items_delivered} delivered</span>
             </>
           )}
-          {box.destination && (
-            <>
-              <span className="dot" />
-              <span>→ {box.destination}</span>
-            </>
-          )}
         </span>
-        {box.items_total > 0 && (
+        {box.destination && <span className="row__meta">→ {box.destination}</span>}
+        {box.items_delivered > 0 && (
           <span className="progress" style={{ display: 'block', marginTop: 8 }}>
             <span className={`progress__fill${pct === 100 ? ' progress__fill--good' : ''}`} style={{ width: `${pct}%` }} />
           </span>

@@ -97,7 +97,7 @@ export function ItemForm({ nav, item }: ItemFormProps) {
                 set('name', e.target.value);
                 if (nameError) setNameError(null);
               }}
-              placeholder="e.g. MacBook Pro 16” · Dell Dock · HDMI cable"
+              placeholder="e.g. MacBook Pro 16” or HDMI cable"
               autoFocus
               maxLength={120}
             />
@@ -106,7 +106,7 @@ export function ItemForm({ nav, item }: ItemFormProps) {
 
           <div className="field" style={{ marginTop: 16 }}>
             <span className="field__label">Category</span>
-            <div className="chip-row">
+            <div className="chip-row chip-row--wrap">
               {CATEGORIES.map((c) => (
                 <Chip key={c.value} active={fields.category === c.value} onClick={() => set('category', c.value)} ariaPressed={fields.category === c.value}>
                   {c.label}
@@ -140,7 +140,7 @@ export function ItemForm({ nav, item }: ItemFormProps) {
               className="input"
               value={fields.destination}
               onChange={(e) => set('destination', e.target.value)}
-              placeholder="Optional — e.g. “Ops desk 4” or “Server room”"
+              placeholder="Optional — Ops desk 4"
               maxLength={120}
             />
             <span className="field__hint">Where it should end up in the new office.</span>

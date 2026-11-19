@@ -46,7 +46,7 @@
 
 ## Go / no-go
 
-**GO.** Every acceptance criterion in `docs/design.md` §7 is met except A10 (public
+**GO.** Every acceptance criterion in `docs/v1-design.md` §7 is met except A10 (public
 repo + tag), which is the ship step immediately after this document. The remaining
 weaknesses are product decisions, not defects, and each is written down rather than
 hidden.

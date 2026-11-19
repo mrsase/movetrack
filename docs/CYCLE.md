@@ -13,8 +13,8 @@ design ──▶ code ──▶ test ──▶ verify ──▶ validate ──�
 
 | Phase | Question it answers | Artifact | Gate |
 | --- | --- | --- | --- |
-| **Design** | What exactly is "finished", and what is explicitly not? | `docs/design.md` | Every acceptance criterion is observable and has an owner command |
-| **Code** | Does the smallest coherent slice exist? | source + `docs/design.md` deltas | Code compiles and the feature is reachable from the UI or API |
+| **Design** | What exactly is "finished", and what is explicitly not? | `docs/v1-design.md` | Every acceptance criterion is observable and has an owner command |
+| **Code** | Does the smallest coherent slice exist? | source + `docs/v1-design.md` deltas | Code compiles and the feature is reachable from the UI or API |
 | **Test** | Do we have fast, deterministic proof? | `server/test/*`, `client/src/**/*.test.tsx` | `npm test` — no flakes, no `.only` |
 | **Verify** | Does the whole repo hold together? | `docs/verification.md` | `npm run verify` (typecheck + lint + test + build) |
 | **Validate** | Does it work as a user would use it? | `docs/validation.md` + screenshots | `npm run smoke` on a clean DB **and** a driven browser session |

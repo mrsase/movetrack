@@ -55,3 +55,44 @@ numbers, confirming no stale dashboard.
 - Physical printing on paper (layout verified in print emulation only).
 - iOS Safari / Android Chrome device testing (Chromium desktop + mobile viewport used).
 - Multi-phone concurrency during a real move.
+
+
+---
+
+# v1.1.0 — redesign validation
+
+**Question:** does the new visual world hold on the sizes it ships at, in both themes, and
+in print?
+
+## Screens inspected
+
+390 × 844 (phone, light and dark), 768 × 1024 (tablet), 1280 × 900 (desktop), plus print
+emulation at A4 width. Every capture is committed under `docs/screenshots/`:
+
+`home-phone`, `items-phone`, `boxes-phone`, `labels-phone`, `labels-print`, `home-dark`,
+`sheet-phone`, `home-desktop`.
+
+## What was measured
+
+| Check | Result |
+| --- | --- |
+| Brand bar width vs app | **390 / 390 px** on phone, **720 / 720 px** at desktop (the v1.0 bar was inset by the screen padding and could be overlapped by scrolling content) |
+| Bar behaviour | `position: static` — it scrolls away instead of covering tiles; offset at scroll 600 px is `-600` |
+| Print label size | **340 × 227 px = 90 × 60 mm**, two columns, `display:none` on the nav, white background |
+| Status text floor | status stamps and counts raised to **11 px**; detector reports no undersized functional text |
+| Detector (rendered) | `npx impeccable detect http://127.0.0.1:4000` → **0 findings** |
+| Detector (source) | `npx impeccable detect client/src` → **0 findings** |
+| Console | no errors on any inspected screen |
+
+## Defects found and fixed during the redesign
+
+| # | Defect | Fix |
+| --- | --- | --- |
+| R1 | Brand bar narrower than the app viewport and overlapped by content while scrolling | Full-bleed margins; static instead of sticky |
+| R2 | Floating add button covered row status stamps | Removed; “Add item” lives in the Items header like “New box” in Boxes |
+| R3 | Status chips used tokens removed from the design system (invisible colours) | Status palette re-pointed; category glyphs made deliberately monochrome |
+| R4 | Boxes listed in server status order (02, 01, 04…) | Sorted by physical box number on Home, Boxes and Labels |
+| R5 | Empty-delivery progress tracks rendered as stray rules | Bar only when something has been delivered |
+| R6 | Empty first run told the user “Everything is delivered” | Copy branches on zero items |
+| R7 | Category chips scrolled horizontally inside the form and hid options | Form chips wrap; filter chips still scroll |
+| R8 | Decorative two-axis grid background | Removed (detector: `codex-grid-background`) |

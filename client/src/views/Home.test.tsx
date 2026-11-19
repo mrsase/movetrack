@@ -7,7 +7,7 @@ import type { Nav } from '../nav';
 import type { Stats } from '../types';
 
 vi.mock('../api', () => ({
-  api: { stats: vi.fn() },
+  api: { stats: vi.fn(), boxes: vi.fn(), items: vi.fn(), restoreBackup: vi.fn() },
 }));
 
 import { api } from '../api';
@@ -64,6 +64,8 @@ function makeNav(): Nav {
 describe('Home', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(api.boxes).mockResolvedValue({ data: [] });
+    vi.mocked(api.items).mockResolvedValue({ data: [], total: 0 });
   });
 
   it('renders the empty state when nothing is registered', async () => {
@@ -78,6 +80,21 @@ describe('Home', () => {
 
   it('shows totals, flow stats, categories and recent items', async () => {
     vi.mocked(api.stats).mockResolvedValue(FULL);
+    vi.mocked(api.boxes).mockResolvedValue({
+      data: [
+        {
+          id: 1,
+          label: 'Cables',
+          destination: 'Floor 3',
+          status: 'open',
+          created_at: '2026-08-31T12:00:00.000Z',
+          updated_at: '2026-08-31T12:00:00.000Z',
+          items_total: 2,
+          items_shipped: 0,
+          items_delivered: 0,
+        },
+      ],
+    });
     const nav = makeNav();
     render(
       <ToastProvider>
@@ -85,12 +102,12 @@ describe('Home', () => {
       </ToastProvider>,
     );
 
-    expect(await screen.findByText('12')).toBeInTheDocument();
+    expect(await screen.findByTestId('total-items')).toHaveTextContent('12');
     expect(statValue('In office')).toContain('5');
     expect(statValue('Packed')).toContain('4');
     expect(statValue('Shipped')).toContain('2');
     expect(statValue('Delivered')).toContain('1');
-    expect(statValue('Boxes')).toContain('3');
+    expect(screen.getByText(/3 boxes/)).toBeInTheDocument();
     expect(screen.getByText(/MacBook Pro/)).toBeInTheDocument();
 
     // tapping a recent item opens its detail
