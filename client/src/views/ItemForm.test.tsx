@@ -75,7 +75,7 @@ describe('ItemForm', () => {
     expect(api.createItem).toHaveBeenCalledWith(
       expect.objectContaining({
         name: 'Dell dock',
-        category: 'mac',
+        category: 'other',
         quantity: 1,
         status: undefined,
       }),

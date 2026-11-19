@@ -1,25 +1,32 @@
 import { describe, it, expect } from 'vitest';
-import { categoryLabel, categoryColor } from './categories';
+import { CATEGORIES, categoryColor, categoryIcon, categoryLabel } from './categories';
 
-describe('categoryLabel', () => {
-  it('maps known values to friendly labels', () => {
-    expect(categoryLabel('mac')).toBe('Mac');
-    expect(categoryLabel('storage')).toBe('SSD / HDD');
-    expect(categoryLabel('other')).toBe('Other');
+describe('category catalog', () => {
+  it('covers the server enum exactly once', () => {
+    const values = CATEGORIES.map((c) => c.value);
+    expect(new Set(values).size).toBe(values.length);
+    expect(values).toEqual(
+      expect.arrayContaining(['mac', 'computer', 'monitor', 'input', 'storage', 'printer', 'server', 'network', 'cable', 'other']),
+    );
   });
 
-  it('falls back to the raw value for unknown categories', () => {
-    expect(categoryLabel('printer')).toBe('printer');
-  });
-});
-
-describe('categoryColor', () => {
-  it('returns a CSS variable for every known category', () => {
-    expect(categoryColor('mac')).toMatch(/^var\(--/);
-    expect(categoryColor('other')).toMatch(/^var\(--/);
+  it('gives every category a label, a colour token and an icon', () => {
+    for (const { value } of CATEGORIES) {
+      expect(categoryLabel(value)).not.toBe(value);
+      expect(categoryColor(value)).toMatch(/^var\(--/);
+      expect(categoryIcon(value)).toBeTruthy();
+    }
   });
 
-  it('has a muted fallback', () => {
-    expect(categoryColor('mystery')).toBe('var(--muted)');
+  it('labels the categories the recorded move needed', () => {
+    expect(categoryLabel('printer')).toBe('Printer');
+    expect(categoryLabel('server')).toBe('Server');
+    expect(categoryLabel('network')).toBe('Network');
+  });
+
+  it('degrades gracefully for unknown categories', () => {
+    expect(categoryLabel('hovercraft')).toBe('hovercraft');
+    expect(categoryColor('hovercraft')).toBe('var(--muted)');
+    expect(categoryIcon('hovercraft')).toBe('package');
   });
 });
